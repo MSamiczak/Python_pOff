@@ -265,7 +265,7 @@ class Off():
         if c.execute("select since from band where since <= '{}';".format(rok1)):
             pass
         else:
-            print("Rok spoza zakresu!\nNa OffFestivalu występowały zespoły zakładane od {} do {} roku".format(granica1,granica2))
+            print("Rok spoza zakresu!\nNa OffFestival'u występowały założone w latach od {} do {} roku".format(granica1,granica2))
             self.m3_A()
             
         rok2 = input("Podaj 2 rok -> ")
@@ -304,23 +304,29 @@ class Off():
         granica1 = ("".join('%s' % x for x in c.fetchall()))
     
         c.execute("select listeners_kilo from band group by listeners_kilo desc limit 1;")
-        granica2 = ("".join('%s' % x for x in c.fetchall()))        
+        granica2 = ("".join('%s' % x for x in c.fetchall()))
         
-        print("Jaki przedział lat cię interesuje?") # zastąpie to wynikami wpisanymi obok siebie po spacji
-        rok1 = input("Podaj 1 rok -> ")
-        if c.execute("select since from band where since <= '{}';".format(rok1)):
+        
+        
+        
+        
+        
+        print("Jaki przedział popularności cię interesuje?") # zastąpie to wynikami wpisanymi obok siebie po spacji
+        ran = [x for x in input("Podaj 2 liczby w tysiącach oddzielone spacją: ").split(" ")]
+        
+        if c.execute("select listeners_kilo from band where listeners_kilo <= '{}';".format(ran[0])):
             pass
+        
         else:
-            print("Rok spoza zakresu!\nNa OffFestivalu występowały zespoły zakładane od {} do {} roku".format(granica1,granica2))
-            self.m3_A()
-            
-        rok2 = input("Podaj 2 rok -> ")
+            print("Dolny przedział spoza zakresu!\nZespół z najmniejszą popularnością ma {} tys. słuchaczy".format(granica1))
+            self.m3_B()
         
-        if c.execute("select since from band where since >= '{}';".format(rok2)):
+        if c.execute("select listeners_kilo from band where listeners_kilo >= '{}';".format(ran[1])):
             pass
+        
         else:  
-            print("Rok spoza zakresu!\nNa OffFestivalu występowały zespoły zakładane od {} do {} roku".format(granica1,granica2))
-            self.m3_A()
+            print("Górny przedział spoza zakresu!\nZespół z największą popularnością ma {} tys. słuchaczy".format(granica2))
+            self.m3_B()
         
         ile = int(input("Ile zespołów na liście?: "))     # czesty blad : builtins.ValueError: invalid literal for int() with base 10: '<'   
         self.sort(rok1,rok2,ile)
@@ -341,9 +347,53 @@ class Off():
             c.execute("select b.name_band, m.best_song from band as b left join music as m on b.id_band = m.id_music where b.since between {} and {} order by b.since {};".format(rok1,rok2,sort))
             results = c.fetchmany(ile)        
             print('\n'.join('%s %s %s' % x for x in disp))
-            self.outro(results)        
+            self.outro(results)
+            
+    def m4_A(self):
+
+        print("Określ jak bardzo popularnych lub unikalnych gatunków poszukujesz.\nOkreśl popularność wpisując znak '+'.\nMożesz podać zaznaczyć skalę od 1 do 5.")
+        popG = str(input("-> "))
+        
+        #if popG != "+":
+            #print("Use plus '+' please!")
+            #time.sleep(1)
+            #self.m4            
+        
+        #else:
+            #pass
+        
+        res = popG.count("+")
+        if res < 1 or res > 5:
+            print("Jesteś poza skalą! Korzystaj ze skali od 1 do 5.")
+        
+        if res == 1:
+            a = 1
+            b = 6
+        if res == 2:
+            a = 7
+            b = 12            
+        if res == 3:
+            a = 21
+            b = 22            
+        if res == 4:
+            a = 22
+            b = 25  
+        if res == 5:
+            a = 25
+            b = 30
+            
+        c.execute("select name_band, b.tag from (select tag, count(*) as num from band group by tag) as t join band as b on t.tag = b.tag where num between {} and {} order by num;".format(a,b))
+        results = c.fetchall()
+        resCount = c.rowcount
+        print('\n'.join('%s %s' % x for x in results))
+        print("\nWyświetlowno {} wyników".format(resCount))
+        
+        
+                      
+        
+        
         
             
-            
+                    
             
 Off()
