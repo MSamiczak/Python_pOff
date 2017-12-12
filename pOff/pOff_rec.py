@@ -131,13 +131,13 @@ class Off():
         print("\n(A)Zespołu\n(B)Gatunku muzyki\n(q)Wyjście do MENU")
         choice_m = input("-> ")
         
-        if choice_m == "A" or choice_m == "a":
+        if choice_m == "A" or choice_m == "a" or choice_m == "1":
             self.m2_A()
           
         if choice_m == "B" or choice_m == "b":
             self.m2_B()   
         
-        if choice1 == "Q" or choice1 == "q":
+        if choice_m == "Q" or choice_m == "q":
             self.menu()
           
         else:
@@ -202,7 +202,7 @@ class Off():
         ile = int(input("Ile zespołów na liście?: "))
         c.execute("select m.name_band, m.best_song from music as m inner join lineup as l on m.id_music = l.id_band inner join festival as f on f.edition = l.id_off where f.year = %s;",rok)
         results = c.fetchmany(ile)
-        print('\n'.join('%s %s' % x for x in results))
+        print('\n'.join('Band: %s; Best Song: %s' % x for x in results))
         self.outro(results)                
             
             
@@ -363,9 +363,8 @@ class Off():
             #pass
         
         res = popG.count("+")
-        if res < 1 or res > 5:
-            print("Jesteś poza skalą! Korzystaj ze skali od 1 do 5.")
-        
+        print("Ustawiono skalę na {}".format(res))
+
         if res == 1:
             a = 1
             b = 6
@@ -381,12 +380,61 @@ class Off():
         if res == 5:
             a = 25
             b = 30
+        
+        elif res not in range (1,6):
+            print("Jesteś poza skalą! Korzystaj ze skali od 1 do 5.")
+            self.m4_A()
             
-        c.execute("select name_band, b.tag from (select tag, count(*) as num from band group by tag) as t join band as b on t.tag = b.tag where num between {} and {} order by num;".format(a,b))
+            
+        c.execute("select b.name_band, best_song from (select tag, count(*) as num from band group by tag) as t join band as b on t.tag = b.tag join music as m on m.id_music = b.id_band where num between {} and {} order by num;".format(a,b))
         results = c.fetchall()
         resCount = c.rowcount
-        print('\n'.join('%s %s' % x for x in results))
+        print('\n'.join('%s %s %s' % x for x in results))
         print("\nWyświetlowno {} wyników".format(resCount))
+
+
+    def m4_B(self):
+
+        print("Określ jak bardzo popularnych lub unikalnych krajów dla wykonawców poszukujesz.\nOkreśl popularność wpisując znak '+'.\nMożesz podać zaznaczyć skalę od 1 do 5.")
+        popG = str(input("-> "))
+        
+        #if popG != "+":
+            #print("Use plus '+' please!")
+            #time.sleep(1)
+            #self.m4            
+        
+        #else:
+            #pass
+        
+        res = popG.count("+")
+        print("Ustawiono skalę na {}".format(res))
+
+        if res == 1:
+            a = 1
+            b = 6
+        if res == 2:
+            a = 7
+            b = 12            
+        if res == 3:
+            a = 21
+            b = 22            
+        if res == 4:
+            a = 22
+            b = 25  
+        if res == 5:
+            a = 25
+            b = 30
+        
+        elif res not in range (1,6):
+            print("Jesteś poza skalą! Korzystaj ze skali od 1 do 5.")
+            self.m4_A()
+            
+            
+        c.execute("select b.name_band,m.best_song, k.country from (select country, count(*) as num from band group by country) as k join band as b on k.country = b.country join music as m on m.id_music = b.id_band  where num between {} and {} order by country;".format(a,b))
+        results = c.fetchall()
+        resCount = c.rowcount
+        print('\n'.join('%s %s %s' % x for x in results))
+        print("\nWyświetlowno {} wyników".format(resCount))        
         
         
                       
