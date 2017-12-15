@@ -11,15 +11,16 @@ c = conn.cursor()
 
 class Off(): 
     def __init__(self):
-        #print("Witaj w askOFF!")
-        #time.sleep(0.5)
-        #print("Poruszaj się po MENU wpisując odpowiednie znaki: \"(X)\"\nprzypisane pozycjom na liście.  ")
-        #time.sleep(0.5)
-        #print("\nDobrej zabawy!")
-        #print(" ")
-        #time.sleep(1)
-        #self.log0()
-        self.menu()
+        print("Witaj w askOFF!")
+        time.sleep(0.5)
+        print("Poruszaj się po MENU wpisując odpowiednie znaki: \"(X)\"\nprzypisane pozycjom na liście.  ")
+        time.sleep(0.5)
+        print("\nDobrej zabawy!")
+        print(" ")
+        time.sleep(1)
+        self.log0()
+        #self.menu()
+        #self.mAdmin_1()
 
     def log0(self):
         print("(1)Mam już konto\n(2)Dodaj nowe konto\n(q)Wyjdź z programu")
@@ -29,12 +30,14 @@ class Off():
         elif choice_log0 == "2":
             self.log2()
         elif choice_log0 == "Q" or choice_log0 == "q":
-            exit()    
+            cu =["Do zobaczenia!", "Cześć!", "Elo 320!", "Tschus!", "Bye!", "Buenos Aires!", "CU!", "Dzb"]
+            print(random.choice(cu))
+            exit()   
+
         else:
-            print("Nie dokonano poprawnego wyboru:(\nSpróbuj ponownie! za 1..2..")
-            print(" ")
+            print("\nNiepoprawny wybór\nSpróbuj ponownie! za 1..2..")
             time.sleep(1)
-            self.log0()
+            self.menu  ()            
 
 
     def log1(self): #logowanie istniejącego uzytkownika
@@ -42,7 +45,9 @@ class Off():
         existPass = input("Podaj hasło: ")
         if c.execute("select login,pass from user where login = %s and pass = %s and user_group = 1",(existLog,existPass)):
             print("Witaj Lordzie Administratorze!")
-                #self.menuADMIN()
+            time.sleep(1)
+            self.menuADMIN()
+        if c.execute("select login,pass from user where login = %s and pass = %s and user_group = 2",(existLog,existPass)):     
             print("\nWitaj ponownie {}\n".format(existLog))
             time.sleep(1)
             self.menu()
@@ -62,14 +67,14 @@ class Off():
             #c.execute("CREATE TABLE {} (id int primary key auto_increment, name_band varchar (45), name_album varchar (45), best_song varchar (45), ocena varchar(1));".format(createLogin))
 
             conn.commit()
-            print("\nUżytkownik utworzony\n")
+            print("Użytkownik utworzony\n")
             conn.close()
             self.menu()
 
 
     def wrong(self):
         print("Błędny login lub hasło! ")
-        print("(1)Ponowne logowanie\n(q)Wyjdź")
+        print("(1)Ponowne logowanie\n(q)Cofnij")
         ifWrongchoice = input("-> ")
         if ifWrongchoice == "1":
             self.log1()
@@ -79,7 +84,7 @@ class Off():
 
     def menu(self):
         print("Dokonaj wyboru z listy MENU")
-        print("\n(1)Wybrana edycja Offa\n(2)Podobne do ulubionego\n(3)Wybierz zakres\n(4)Popularne/unikalne\n(q)Wyjście")
+        print("\n(1)Wybrana edycja Offa\n(2)Podobne do ulubionego\n(3)Wybierz zakres\n(4)Popularne/unikalne\n(q)Wyjście z programu")
         choice_menu = input("-> ")
 
         if choice_menu == "1":
@@ -89,9 +94,34 @@ class Off():
         if choice_menu == "3":
             self.m3()       
         if choice_menu == "4":
-            self.m4()   
-    # if choice1 == "5":
-    #       self.p5()
+            self.m4()
+            
+        elif choice_menu == "Q" or choice_menu == "q":
+            cu =["Do zobaczenia!", "Cześć!", "Elo 320!", "Tschus!", "Bye!", "Buenos Aires!", "CU!", "Dzb"]
+            print(random.choice(cu))
+            exit()   
+
+        else:
+            print("\nNiepoprawny wybór\nSpróbuj ponownie! za 1..2..")
+            time.sleep(1)
+            self.menu()   
+            
+    def menuADMIN(self):
+        print("Dokonaj wyboru z listy MENU")
+        print("\n(1)Wybrana edycja Offa\n(2)Podobne do ulubionego\n(3)Wybierz zakres\n(4)Popularne/unikalne\n($)Narzędzia administracyjne\n(q)Wyjście z programu")
+        choice_menu = input("-> ")
+
+        if choice_menu == "1":
+            self.m1()
+        if choice_menu == "2":
+            self.m2()         
+        if choice_menu == "3":
+            self.m3()       
+        if choice_menu == "4":
+            self.m4()
+        if choice_menu == "$":
+            self.mA()            
+
 
         elif choice_menu == "Q" or choice_menu == "q":
             cu =["Do zobaczenia!", "Cześć!", "Elo 320!", "Tschus!", "Bye!", "Buenos Aires!", "CU!", "Dzb"]
@@ -188,6 +218,107 @@ class Off():
             time.sleep(1)
             self.m4()  
 
+            
+    def mA(self):
+        print("\n*** Narzędzia administracyjne ***")
+        print("\n(1)Dodaj rekord\n(2)Usuń rekord\n(q)Cofnij")
+        choice_mA = input("-> ")       
+        
+        if choice_mA == "1":
+            self.mAdmin_1()
+
+        if choice_mA == "2":
+            self.mAdmin_2()   
+
+        if choice_mA == "Q" or choice_mA == "q":
+            self.menuADMIN()
+
+        else:
+            print("\nNiepoprawny wybór\nSpróbuj ponownie! za 1..2..")
+            time.sleep(1)
+            self.mA()              
+            
+            
+    def mAdmin_1(self):
+        print("\n*** Dodawanie Wykonawcy ***")
+        print("Postępuj zgodnie z instrukcjami")
+        print("Jeśli w trakcie uzupełniania arkusza zdecydujesz się wyjść wpisz: $$exit")
+        
+        name_band = input("Nazwa Wykonawcy: ")
+        if c.execute("select name_band from band where name_band = %s",name_band):
+            print("\nWykonawca o podanej nazwie znajduje się już w bazie Offa.")
+            self.mA()
+        if len(name_band) == 0:
+            print("Pole nie może pozostać puste.")
+            self.mAdmin_1()
+        if name_band == "$$exit":
+            self.mA()
+        country = input("Kraj: ")
+        if len(country) == 0:
+            print("Pole nie może pozostać puste.")
+            self.mAdmin_1()
+        if len(country) >3:
+            print("Podaj informację o kraju w formie skrótu (np. PL, GER).")
+            self.mAdmin_1()            
+        if country == "$$exit":
+            self.mAdmin_1()     
+        city = input("Miasto: ")
+        if city == "$$exit":
+            self.mAdmin_1()          
+        tag = input("Wykonywany gatunek: ")
+        if len(tag) == 0:
+            print("Pole nie może pozostać puste.")
+            self.mAdmin_1()
+        if tag == "$$exit":
+            self.mAdmin_1()            
+        since = input("Na scenie od roku: ")
+        if len(since) == 0:
+            print("Pole nie może pozostać puste.")
+            self.mAdmin_1()
+        if since == "$$exit":
+            self.mAdmin_1()               
+        listeners_kilo = input("Ilość słuchaczy podana w tys.: ")
+        if listeners_kilo == "$$exit":
+            self.mAdmin_1()         
+        name_album = ("Najlepszy album: ")
+        if len(name_album) == 0:
+            print("Pole nie może pozostać puste.")
+            self.mAdmin_1()
+        if name_album == "$$exit":
+            self.mAdmin_1()            
+        best_song = ("Najbradziej popularny utwór: ")
+        if len(best_song) == 0:
+            print("Pole nie może pozostać puste.")
+            self.mAdmin_1()
+        if best_song == "$$exit":
+            self.mAdmin_1()               
+
+        c.execute("INSERT INTO band VALUES(null,%s,%s,%s,%s,%s,%s)",(name_band, city, country, tag, since, listeners_kilo))
+        c.execute("INSERT INTO music VALUES(null,%s,%s,%s)",(name_band, name_album, best_song))
+        conn.commit()
+        print("Dodano wykonawcę!\n")
+        conn.close()
+        
+       
+        
+        print("Podaj, na której edycji festiwalu wystąpił.")
+        id_off = input("-> ")
+        if id_off.isdigit():
+            pass
+        if len(id_off) in range(1,3):
+            pass
+        else:
+            print("Źle wprowadzony numer edycji")
+        conn.ping()    
+        conn.commit()
+        c.execute("select id_band from band where name_band = %s ;",name_band)
+        id_band = c.fetchall()
+        c.execute("INSERT INTO lineup VALUES(null,%s,%s,%s)",(id_band, name_band, id_off))
+        print("Poprawnie zakończyłeś dodawanie rekordu!")
+        conn.close()  
+        self.mA()
+        
+        
     # Rok edycji Offa           
     def m1A(self):
 
@@ -392,9 +523,9 @@ class Off():
         sort0 = input("\n*** Wyświetlanie wyników ***\n(A)Alfabtycznie\t(B)Wg Popularności\n-> ")
 
         if sort0 == "A" or sort0 =="a":
-            self.sortA(tag,ile)
+            self.m2B_Alfa(tag,ile)
         elif sort0 == "B" or sort0 == "b":
-            self.sortB(tag,ile)
+            self.m2B_Pop(tag,ile)
         else:
             print("Zły wybór. Spróbuj ponownie")
             self.sort_m2B(tag,ile)
@@ -657,19 +788,19 @@ class Off():
         # zła tu skala
         if res == 1:
             a = 1
-            b = 18
+            b = 5
         if res == 2:
-            a = 19
-            b = 36            
+            a = 6
+            b = 9            
         if res == 3:
-            a = 37
-            b = 54            
+            a = 10
+            b = 65            
         if res == 4:
-            a = 55
-            b = 72  
+            a = 65
+            b = 85  
         if res == 5:
-            a = 73
-            b = 90
+            a = 85
+            b = 95
 
         elif res not in range (1,6):
             print("Jesteś poza skalą! Korzystaj ze skali od 1 do 5.")
@@ -724,7 +855,7 @@ class Off():
         time.sleep(0.5)        
         print("Czy chcesz?\n")
         time.sleep(0.5)  
-        print("(E)Eksportować jako playlistę.txt\n(q)Wyjść do MENU")
+        print("(E)Eksportować jako playlistę.txt\n(q)Cofnij")
         outro_choice = input("-> ")
         if outro_choice == "E" or outro_choice == "e":
             self.export(results)
