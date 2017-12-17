@@ -5,8 +5,10 @@ import random
 import time
 import datetime
 from os import *
+import os
 import io
 import daneDoLogowania
+cls = lambda: os.system('cls')
 
 conn = pymysql.connect(daneDoLogowania.daneDoLog["host"], daneDoLogowania.daneDoLog["user"], daneDoLogowania.daneDoLog["pass"], daneDoLogowania.daneDoLog["db"], use_unicode = 1, charset ="utf8")
 
@@ -30,10 +32,10 @@ class Off():
         print("-".center(100,"-"))
         print("\nDobrej zabawy!")
         print(" ")
-        time.sleep(1)
+        time.sleep(2)
+        cls()
         self.log0()
         #self.menu()
-
 
     def log0(self):
         print("(1)Mam już konto\n(2)Dodaj nowe konto\n(q)Wyjdź z programu")
@@ -44,12 +46,16 @@ class Off():
             self.log2()
         elif choice_log0 == "Q" or choice_log0 == "q":
             cu =["Do zobaczenia!", "Cześć!", "Elo 320!", "Tschus!", "Bye!", "Buenos Aires!", "CU!", "Dzb"]
-            print(random.choice(cu))
+            cls()
+            print("\n\n\n\n\n\n")
+            print(random.choice(cu).center(80,"-"))
+            time.sleep(2)
             exit()   
 
         else:
             print("\nNiepoprawny wybór\nSpróbuj ponownie! za 1..2..")
             time.sleep(1)
+            cls()
             self.log0()            
 
 
@@ -59,12 +65,15 @@ class Off():
         if c.execute("select login,pass from user where login = %s and pass = %s and user_group = 1",(existLog,existPass)):
             print("\nWitaj Lordzie Administratorze!\n")
             time.sleep(1)
+            cls()
             self.menuADMIN(existLog)
         if c.execute("select login,pass from user where login = %s and pass = %s and user_group = 2",(existLog,existPass)):     
             print("\nWitaj ponownie ***{}***\n".format(existLog))
             time.sleep(1)
+            cls()
             self.menu(existLog)
         else:
+            cls()
             self.wrong(existLog)           
 
     def log2(self):   #nowy user
@@ -73,6 +82,7 @@ class Off():
             print("\nLogin zajęty!\nWymyśl coś innego.")
             print(" ")
             time.sleep(1)
+            cls()
             self.log2()
         else:
             createPassw = input("Podaj hasło: ")
@@ -86,6 +96,7 @@ class Off():
             conn.close()
             conn.ping()
             existLog =  createLog
+            cls()
             self.menu(existLog)
 
 
@@ -96,10 +107,12 @@ class Off():
         if ifWrongchoice == "1":
             self.log1()
         elif ifWrongchoice == "Q" or ifWrongchoice == "q":
+            cls()
             self.log0()
         else:
             print("\nNiepoprawny wybór\nSpróbuj ponownie! za 1..2..")
             time.sleep(1)
+            cls()
             self.wrong()
 
 
@@ -109,17 +122,24 @@ class Off():
         choice_menu = input("-> ")
 
         if choice_menu == "1":
+            cls()
             self.m1(existLog)
         if choice_menu == "2":
+            cls()
             self.m2(existLog)         
         if choice_menu == "3":
+            cls()
             self.m3(existLog)       
         if choice_menu == "4":
+            cls()
             self.m4(existLog)
 
         elif choice_menu == "Q" or choice_menu == "q":
             cu =["Do zobaczenia!", "Cześć!", "Elo 320!", "Tschus!", "Bye!", "Buenos Aires!", "CU!", "Dzb"]
-            print(random.choice(cu))
+            cls()
+            print("\n\n\n\n\n\n")
+            print(random.choice(cu).center(80,"-"))            
+            time.sleep(2)
             exit()   
 
         else:
@@ -133,20 +153,28 @@ class Off():
         choice_menu = input("-> ")
 
         if choice_menu == "1":
+            cls()
             self.m1(existLog)
         if choice_menu == "2":
+            cls()
             self.m2(existLog)         
         if choice_menu == "3":
+            cls()
             self.m3(existLog)       
         if choice_menu == "4":
+            cls()
             self.m4(existLog)
         if choice_menu == "$":
+            cls()
             self.mA(existLog)            
 
 
         elif choice_menu == "Q" or choice_menu == "q":
             cu =["Do zobaczenia!", "Cześć!", "Elo 320!", "Tschus!", "Bye!", "Buenos Aires!", "CU!", "Dzb"]
-            print(random.choice(cu))
+            cls()
+            print("\n\n\n\n\n\n")
+            print(random.choice(cu).center(80,"-"))
+            time.sleep(2)
             exit()   
 
         else:
@@ -169,8 +197,10 @@ class Off():
 
         if choice_m == "Q" or choice_m == "q":
             if c.execute("select login,pass from user where login = %s and user_group = 1",(existLog)):
+                cls()
                 self.menuADMIN(existLog)
             else:
+                cls()
                 self.menu(existLog)
 
         else:
@@ -194,8 +224,10 @@ class Off():
 
         if choice_m == "Q" or choice_m == "q":
             if c.execute("select login,pass from user where login = %s and user_group = 1",(existLog)):
+                cls()
                 self.menuADMIN(existLog)
             else:
+                cls()
                 self.menu(existLog)
 
         else:
@@ -218,8 +250,10 @@ class Off():
 
         if choice_m == "Q" or choice_m == "q":
             if c.execute("select login,pass from user where login = %s and user_group = 1",(existLog)):
+                cls()
                 self.menuADMIN(existLog)
             else:
+                cls()
                 self.menu(existLog)
 
         else:
@@ -242,8 +276,10 @@ class Off():
 
         if choice_m == "Q" or choice_m == "q":
             if c.execute("select login,pass from user where login = %s and user_group = 1",(existLog)):
+                cls()
                 self.menuADMIN(existLog)
             else:
+                cls()
                 self.menu(existLog)
         else:
             print("\nNiepoprawny wybór\nSpróbuj ponownie! za 1..2..")
@@ -266,6 +302,7 @@ class Off():
             self.mAdmin_s(existLog)   
     
         if choice_mA == "Q" or choice_mA == "q":
+            cls()
             self.menuADMIN(existLog)
 
         else:
@@ -276,13 +313,15 @@ class Off():
     def mAdmin_s(self,existLog):
         
         print("Funkcjonalność w budowie!\nTe i inne powalające funkcjonalności juz wkrótce!")
-        self.mA(existLog)
         time.sleep(1)
+        self.mA(existLog)
+        
 
     def mAdmin_1(self,existLog):
         print("\n*** Dodawanie Wykonawcy ***")
-        print("Postępuj zgodnie z instrukcjami")
-        print("Jeśli w trakcie uzupełniania arkusza zdecydujesz się wyjść wpisz: $$exit")
+        print("\nPostępuj zgodnie z instrukcjami")
+        print("\nJeśli w trakcie uzupełniania arkusza zdecydujesz się wyjść wpisz: $$exit\n")
+        time.sleep(1)
         self.name_band(existLog)
 
     def name_band(self,existLog):    
@@ -387,7 +426,8 @@ class Off():
         c.execute("INSERT INTO lineup VALUES(null,%s,%s,%s)",(id_band, name_band, id_off))
         print("Poprawnie zakończyłeś dodawanie rekordu!")
         conn.close() 
-
+        time.sleep(3)
+        cls()
         self.mA(existLog)
 
 
@@ -827,7 +867,7 @@ class Off():
 
     def m4A(self,existLog):
 
-        print("Określ jak bardzo popularnych lub unikalnych gatunków poszukujesz.\nOkreśl popularność wpisując znak '+'.\nMożesz podać zaznaczyć skalę od 1 do 5.")
+        print("\nOkreśl jak bardzo popularnych lub unikalnych gatunków poszukujesz.\nOkreśl popularność wpisując znak '+'.\nMożesz podać zaznaczyć skalę od 1 do 5.\n")
         popG = str(input("-> "))
 
         #if popG != "+":
@@ -919,7 +959,7 @@ class Off():
         res = popG.count("+")
         print("Ustawiono skalę na {}".format(res))
 
-        # zła tu skala
+    
         if res == 1:
             a = 1
             b = 5
@@ -940,6 +980,8 @@ class Off():
             print(" ")
             print("Jesteś poza skalą! Korzystaj ze skali od 1 do 5".center(80,"-"))
             print(" ")
+            self.m4B(existLog)
+            
         self.sort_m4B(existLog,a,b)
 
 
@@ -1002,8 +1044,10 @@ class Off():
             self.export(existLog,results)
         elif outro_choice == "Q" or outro_choice == "q":
             if c.execute("select login,pass from user where login = %s and user_group = 1",(existLog)):
+                cls()
                 self.menuADMIN(existLog)
             else:
+                cls()
                 self.menu(existLog)
         else:
             print("\nNiepoprawny wybór\nSpróbuj ponownie! za 1..2..")
@@ -1021,6 +1065,7 @@ class Off():
             io.open("{}.txt".format(plName),"a").write('\n'.join('%s - %s' % x for x in results))
             print("Zapisano!")
             time.sleep(2)
+            cls()
             if c.execute("select login,pass from user where login = %s and user_group = 1",(existLog)):
                 self.menuADMIN(existLog)
             else:
