@@ -1,0 +1,1 @@
+Program „Play Off ” w języku Python wykorzystujący bazę danych MySQL, zawierający logowanie użytkowników wraz z kontrolą poziomów dostępu. Program służy do generowania list utworów przy użyciu różnych kryteriów wyszukiwania. Założeniem programu była praktyka w wykorzystaniu złożonych zapytań MySQL oraz poznanie języka Python.
